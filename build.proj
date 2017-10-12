@@ -10,33 +10,22 @@
 		<TrackFileAccess>false</TrackFileAccess>
 		<SolutionDir>$(BuildRoot)</SolutionDir>
 		<TargetDir>$(BuildRoot)</TargetDir>
-		<!-- TODO: once our support for AssemblyMetadataAttribute is merged, auto-download NuGet -->
-		<NuGetCommand>&quot;$(MSBuildThisFileDirectory)NuGet.exe&quot;</NuGetCommand>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<SolutionToBuild Include="$(MSBuildThisFileDirectory)*.sln" />
-		<PackageProject Include="**\*.csproj">
-			<NuSpec>$(MSBuildThisFileDirectory)%(RecursiveDir)%(Filename).nuspec</NuSpec>
-		</PackageProject>
-		<PackageConfig Include="**\packages.config" />
+		<PackageProject Include="**\*.csproj" />
 	</ItemGroup>
 
 	<Target Name="Clean">
-		<ItemGroup>
-			<CleanFileList Include="*.nupkg"/>
-		</ItemGroup>
 		<MSBuild
 			Projects="@(PackageProject)"
 			Targets="Clean"
 			Properties="Configuration=$(Configuration);TrackFileAccess=$(TrackFileAccess)"/>
-		<Delete Files="@(CleanFileList)"/>
 	</Target>
 
 	<Target Name="Build" DependsOnTargets="Restore">
 		<MSBuild Projects="@(SolutionToBuild)" Targets="Build" Properties="Configuration=$(Configuration);TrackFileAccess=$(TrackFileAccess)" />
-		<Exec Command="$(NuGetCommand) pack %(PackageProject.Identity) -Symbols -NoPackageAnalysis -NonInteractive -Verbosity quiet -Properties Configuration=$(Configuration)"
-			  Condition="Exists('%(NuSpec)')" />
 	</Target>
 
 	<Target Name="Rebuild" DependsOnTargets="Clean;Build" />

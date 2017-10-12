@@ -40,6 +40,18 @@ namespace NuDoq
         public abstract TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : Visitor;
 
         /// <summary>
+        /// Gets a value indicating whether the class can return line information.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> if <see cref="Element.LineNumber"/> and <see cref="Element.LinePosition"/> 
+        /// can be provided; otherwise, <c>false</c>.
+        /// </returns>
+        protected bool HasLineInfo()
+        {
+            return this.lineInfo != null && this.lineInfo.HasLineInfo();
+        }
+
+        /// <summary>
         /// Returns the text content of this element and all its 
         /// children if any.
         /// </summary>
@@ -92,15 +104,31 @@ namespace NuDoq
 
         bool IXmlLineInfo.HasLineInfo()
         {
-            return this.lineInfo != null && this.lineInfo.HasLineInfo();
+            return this.HasLineInfo();
         }
 
         int IXmlLineInfo.LineNumber
         {
-            get { return this.lineInfo == null ? 0 : this.lineInfo.LineNumber; }
+            get { return this.LineNumber; }
         }
 
         int IXmlLineInfo.LinePosition
+        {
+            get { return this.LinePosition; }
+        }
+
+        /// <summary>
+        /// Gets the current line number.
+        /// </summary>
+        protected int LineNumber
+        {
+            get { return this.lineInfo == null ? 0 : this.lineInfo.LineNumber; }
+        }
+
+        /// <summary>
+        /// Gets the current line position.
+        /// </summary>
+        protected int LinePosition
         {
             get { return this.lineInfo == null ? 0 : this.lineInfo.LinePosition; }
         }
