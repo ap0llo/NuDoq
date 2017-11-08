@@ -8,7 +8,7 @@
     <VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>
     <AssemblyVersion>$(VersionMajor).0.0.0</AssemblyVersion>
     <FileVersion>$(VersionMajor).$(VersionMinor).$(VersionPatch).$(VersionBuild)</FileVersion>
-    <TargetFrameworks>net35</TargetFrameworks>
+    <TargetFrameworks>net35;net40</TargetFrameworks>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -21,7 +21,6 @@
     <PackageProjectUrl>https://github.com/kzu/NuDoq</PackageProjectUrl>
     <RepositoryUrl>https://github.com/kzu/NuDoq.git</RepositoryUrl>
     <PackageIconUrl>https://raw.github.com/kzu/NuDoq/master/doc/Icon-big.png</PackageIconUrl>
-    <PackageReleaseNotes>$([System.IO.File]::ReadAllText('ReleaseNotes.md'))</PackageReleaseNotes>
     <PackageTags>.net documentation</PackageTags>   
     <AssemblyOriginatorKeyFile>..\..\NuDoq.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
