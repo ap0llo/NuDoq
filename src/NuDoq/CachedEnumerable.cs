@@ -18,10 +18,8 @@
 
 namespace NuDoq
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Internal class used to cache the results of the enumeration of the 
@@ -47,27 +45,26 @@ namespace NuDoq
 
             public IEnumerator<T> GetEnumerator()
             {
-                // First time around, there will be nothing in 
-                // this cache.
-                foreach (var item in cache)
-                {
-                    yield return item;
-                }
-
                 // First time we'll get the enumerator, only 
                 // once. Next time, it will already have a value
                 // and so we won't enumerate twice ever.
                 if (enumerator == null)
                     enumerator = enumerable.GetEnumerator();
 
-                // First time around, we'll loop until we're done. 
-                // Next time it's enumerated, this enumerator will 
-                // return false from MoveNext right-away.
-                while (enumerator.MoveNext())
+                int index = 0;
+                do
                 {
-                    cache.Add(enumerator.Current);
-                    yield return enumerator.Current;
-                }
+                    if (index < cache.Count)
+                        yield return cache[index];
+
+                    else if (enumerator.MoveNext())
+                    {
+                        cache.Add(enumerator.Current);
+                        yield return enumerator.Current;
+                    }
+
+                    index++;
+                } while (index <= cache.Count);
             }
 
             IEnumerator IEnumerable.GetEnumerator()
