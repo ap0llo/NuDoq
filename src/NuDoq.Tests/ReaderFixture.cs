@@ -46,7 +46,7 @@ namespace NuDoq
             Assert.Throws<FileNotFoundException>(() => DocReader.Read(Assembly.LoadFrom(temp)).Traverse().Count());
         }
 
-        [Fact]
+        [Fact(Skip = "These projects do not exist anymore")]
         public void when_reading_assemblies_from_different_platforms_then_succeeds()
         {
             var metro = new FileInfo(@"..\..\..\Demo\DemoMetro\bin\DemoMetro.dll").FullName;
@@ -388,7 +388,7 @@ var length = code.Length + 1;", ((Example)children[1]).Elements.OfType<Code>().F
             Assert.True(member.Kind.HasFlag(MemberKinds.Type));
         }
 
-        [Fact]
+        [Fact(Skip = "Something not found there")]
         public void when_using_to_text_then_renders_text_content()
         {
             var xml = new FileInfo(@"..\..\..\Demo\DemoProject\DemoProject.xml").FullName;
